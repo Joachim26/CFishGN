@@ -849,26 +849,19 @@ static Value fix_FRC(const Position *pos)
     return 0;
 
   Value v = 0;
+  Value correction = 0;
 
   if (piece_on(SQ_A1) == W_BISHOP && piece_on(SQ_B2) == W_PAWN)
-    v += !is_empty(SQ_B3) ? -CorneredBishopV * 4
-                          : -CorneredBishopV * 3;
+    correction -= CorneredBishopV;
   if (piece_on(SQ_H1) == W_BISHOP && piece_on(SQ_G2) == W_PAWN)
-    v += !is_empty(SQ_G3) ? -CorneredBishopV * 4
-                          : -CorneredBishopV * 3;
+    correction -= CorneredBishopV;
   if (piece_on(SQ_A8) == B_BISHOP && piece_on(SQ_B7) == B_PAWN)
-    v += !is_empty(SQ_B6) ? CorneredBishopV * 4
-                          : CorneredBishopV * 3;
+    correction += CorneredBishopV;
   if (piece_on(SQ_H8) == B_BISHOP && piece_on(SQ_G7) == B_PAWN)
-    v += !is_empty(SQ_G6) ? CorneredBishopV * 4
-                          : CorneredBishopV * 3;
+    correction += CorneredBishopV;
 
-  return stm() == WHITE ? v : -v;
+  return stm() == WHITE ? (v + 5*correction) : -(v + 5*correction);
 }
-
-#define adjusted_NNUE() \
-  (nnue_evaluate(pos, true) * (903 + mat) / 1024 \
-   + (is_chess960() ? fix_FRC(pos) : 0))
 
 #endif
 
@@ -878,18 +871,25 @@ Value evaluate(const Position *pos)
 
 #ifdef NNUE
 
-  const int mat = 32 * non_pawn_material() / 1024 + 32 * popcount(pieces_p(PAWN));
-  if (useNNUE == EVAL_HYBRID) {
-    Value psq = abs(eg_value(psq_score()));
-    int r50 = rule50_count();
-    bool classical = psq * 5 > (750 + non_pawn_material() / 64) * (5 + r50);
+  Value psq = abs(eg_value(psq_score()));
+  bool classical = (useNNUE != EVAL_PURE && psq * 5 > (850 + non_pawn_material() / 64) * (5 + rule50_count())) || (useNNUE == EVAL_CLASSICAL);
 
-    v = classical ? evaluate_classical(pos)
-                  : adjusted_NNUE();
-  } else if (useNNUE == EVAL_PURE)
-    v = adjusted_NNUE();
-  else
-    v = evaluate_classical(pos);
+  v = classical ? evaluate_classical(pos)
+                : nnue_evaluate(pos, true);
+
+  if (!classical)
+  {
+    int scale =   898
+                 + 24 * popcount(pieces_p(PAWN))
+                 + 33 * non_pawn_material() / 1024;
+
+    Value optimism = pos->optimism[stm()];
+
+    v = (v + optimism) * scale / 1024 - optimism;
+
+    if (is_chess960())
+      v += fix_FRC(pos);
+  }
 
 #else
 
@@ -898,13 +898,14 @@ Value evaluate(const Position *pos)
 #endif
 
   // Damp down the evalation linearly when shuffling
-  v = v * (100 - rule50_count()) / 100;
+  v = v * (207 - rule50_count()) / 207;
 
   return clamp(v, VALUE_TB_LOSS_IN_MAX_PLY + 1, VALUE_TB_WIN_IN_MAX_PLY - 1);
 }
 
 #else /* NNUE_PURE */
 
+#error "Not supported"
 Value evaluate(const Position *pos)
 {
   Value v;

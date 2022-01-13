@@ -31,6 +31,7 @@
 
 #include "bitboard.h"
 #include "types.h"
+#include "misc.h"
 
 #ifdef NNUE
 #include "nnue.h"
@@ -126,6 +127,7 @@ struct Stack {
   Move excludedMove;
   Move killers[2];
   Value staticEval;
+  Depth depth;
   Value statScore;
   int moveCount;
   int doubleExtensions;
@@ -138,7 +140,6 @@ struct Stack {
   uint8_t recaptureSquare;
   uint8_t mp_ply;
   Move countermove;
-  Depth depth;
   Move ttMove;
   Value threshold;
   Move mpKillers[2];
@@ -202,18 +203,22 @@ struct Position {
   Stack *stack;
   uint64_t nodes;
   uint64_t tbHits;
-  uint64_t ttHitAverage;
+  RunningAverage doubleExtensionAverage[2];
+  uint64_t nodesLastExplosive;
+  uint64_t nodesLastNormal;
   int pvIdx, pvLast;
   int selDepth, nmpMinPly;
   Color nmpColor;
   Depth rootDepth;
   Depth completedDepth;
+  Value rootDelta;
   Score trend;
+  int state;
+  Value optimism[2];
 
   // Pointers to thread-specific tables.
   CounterMoveStat *counterMoves;
   ButterflyHistory *mainHistory;
-  LowPlyHistory *lowPlyHistory;
   CapturePieceToHistory *captureHistory;
   PawnEntry *pawnTable;
   MaterialEntry *materialTable;

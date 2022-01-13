@@ -109,6 +109,54 @@ void unmap_file(const void *data, map_t map);
 void *allocate_memory(size_t size, bool lp, alloc_t *alloc);
 void free_memory(alloc_t *alloc);
 
+// RunningAverage : a class to calculate a running average of a series of values.
+// For efficiency, all computations are done with integers.
+
+#define RA_PERIOD     4096ll
+#define RA_RESOLUTION 1024ll
+typedef struct RunningAverage {
+      int64_t average;
+} RunningAverage;
+
+// Reset the running average to rational value p / q
+inline void RunningAverage_set(RunningAverage* ra, int64_t p, int64_t q)
+  { ra->average = p * RA_PERIOD * RA_RESOLUTION / q; }
+
+// Update average with value v
+inline void RunningAverage_update(RunningAverage* ra, int64_t v)
+  { ra->average = RA_RESOLUTION * v + (RA_PERIOD - 1) * ra->average / RA_PERIOD; }
+
+// Test if average is strictly greater than rational a / b
+inline bool RunningAverage_is_greater(const RunningAverage* ra, int64_t a, int64_t b)
+  { return b * ra->average > a * RA_PERIOD * RA_RESOLUTION ; }
+
+/// sigmoid(t, x0, y0, C, P, Q) implements a sigmoid-like function using only integers,
+/// with the following properties:
+///
+///  -  sigmoid is centered in (x0, y0)
+///  -  sigmoid has amplitude [-P/Q , P/Q] instead of [-1 , +1]
+///  -  limit is (y0 - P/Q) when t tends to -infinity
+///  -  limit is (y0 + P/Q) when t tends to +infinity
+///  -  the slope can be adjusted using C > 0, smaller C giving a steeper sigmoid
+///  -  the slope of the sigmoid when t = x0 is P/(Q*C)
+///  -  sigmoid is increasing with t when P > 0 and Q > 0
+///  -  to get a decreasing sigmoid, call with -t, or change sign of P
+///  -  mean value of the sigmoid is y0
+///
+/// Use <https://www.desmos.com/calculator/jhh83sqq92> to draw the sigmoid
+
+inline int64_t sigmoid(int64_t t, int64_t x0,
+                                  int64_t y0,
+                                  int64_t  C,
+                                  int64_t  P,
+                                  int64_t  Q)
+{
+   assert(C > 0);
+   int64_t xxx = t-x0;
+   if (xxx < 0) xxx = -xxx;
+   return y0 + P * (t-x0) / (Q * (xxx + C)) ;
+}
+
 struct PRNG
 {
   uint64_t s;
