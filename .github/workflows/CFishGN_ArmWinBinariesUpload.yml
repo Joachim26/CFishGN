@@ -79,7 +79,7 @@ jobs:
         run: |
           #pacman -S mingw-w64-x86_64-toolchain
           make clean
-          make -j build ARCH=x86-64 COMP=$COMP numa=no sparse=no
+          make build ARCH=x86-64 COMP=$COMP numa=no sparse=no
           make strip ARCH=x86-64 COMP=$COMP
           cp Cfish.exe ../CFishGN_modern.exe
         
