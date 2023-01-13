@@ -77,7 +77,7 @@ jobs:
       - name: win11 build
         if: ${{ matrix.config.run_win11_build }}
         run: |
-          pacman -S mingw-w64-x86_64-toolchain
+          #pacman -S mingw-w64-x86_64-toolchain
           make clean
           make -j build ARCH=x86-64-modern COMP=$COMP numa=no
           make strip ARCH=x86-64-modern COMP=$COMP
