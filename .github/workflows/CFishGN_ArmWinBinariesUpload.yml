@@ -79,8 +79,8 @@ jobs:
         run: |
           #pacman -S mingw-w64-x86_64-toolchain
           make clean
-          make build ARCH=x86-64 COMP=$COMP numa=no sparse=no
-          make strip ARCH=x86-64 COMP=$COMP
+          make build ARCH=auto COMP=$COMP numa=no
+          make strip ARCH=auto COMP=$COMP
           cp Cfish.exe ../CFishGN_modern.exe
         
       - uses: xresloader/upload-to-github-release@v1
