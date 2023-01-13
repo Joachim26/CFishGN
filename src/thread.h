@@ -46,8 +46,6 @@
 #define UNLOCK(x) ReleaseMutex(x)
 #endif
 
-enum {THREAD_SLEEP,THREAD_SEARCH,THREAD_TT_CLEAR,THREAD_EXIT,THREAD_RESUME};
-
 void thread_search(Position *pos);
 void thread_wake_up(Position *pos, int action);
 void thread_wait_until_sleeping(Position *pos);
@@ -98,6 +96,10 @@ uint64_t threads_nodes_searched(void);
 uint64_t threads_tb_hits(void);
 
 extern ThreadPool Threads;
+
+enum {THREAD_SLEEP,THREAD_SEARCH,THREAD_TT_CLEAR,THREAD_EXIT,THREAD_RESUME};
+
+
 
 INLINE Position *threads_main(void)
 {
