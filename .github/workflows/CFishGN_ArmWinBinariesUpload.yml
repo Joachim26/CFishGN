@@ -1,4 +1,4 @@
-name: SFSnpsArmWinBinariesUpload
+name: CFishGNArmWinBinariesUpload
 on:
   workflow_dispatch:
 jobs:
@@ -20,7 +20,7 @@ jobs:
             
           - name: Windows 2022 Mingw-w64 GCC x86_64
             os: windows-2022
-            compiler: gCc
+            compiler: gcc
             comp: mingw
             run_win11_build: true
             msys_sys: mingw64
