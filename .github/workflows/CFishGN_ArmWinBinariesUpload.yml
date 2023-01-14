@@ -80,7 +80,7 @@ jobs:
           make clean
           make build ARCH=ARCH=x86-64-modern COMP=gcc numa=no
           #make strip ARCH=ARCH=x86-64-modern COMP=gcc
-          strip crush exe
+          strip cfish.exe
           cp cfish.exe ../CFishGN_modern.exe
         
       - uses: xresloader/upload-to-github-release@v1
