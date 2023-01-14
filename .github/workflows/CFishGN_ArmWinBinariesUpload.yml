@@ -43,7 +43,7 @@ jobs:
           msystem: ${{ matrix.config.msys_sys }}
           install: mingw-w64-${{ matrix.config.msys_env }} make git
 
-      - name: Download the SMALL network from the fishtest framework
+      - name: Download the network from the fishtest framework
         run: make net
 
       - name: armv8 build
@@ -78,9 +78,10 @@ jobs:
         if: ${{ matrix.config.run_win11_build }}
         run: |
           make clean
-          make -j3 profile-build ARCH=x86-64-modern COMP=$COMP numa=no
-          make strip ARCH=x86-64-modern COMP=$COMP
-          cp Cfish.exe ../CFishGN_modern.exe
+          make -j build ARCH=ARCH=x86-64-modern COMP=gcc numa=no
+          #make strip ARCH=ARCH=x86-64-modern COMP=gcc
+          strip cfish.exe
+          cp cfish.exe ../CFishGN_modern.exe
         
       - uses: xresloader/upload-to-github-release@v1
         if: ${{ matrix.config.run_win11_build }}
