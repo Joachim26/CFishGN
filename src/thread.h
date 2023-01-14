@@ -46,7 +46,7 @@
 #define UNLOCK(x) ReleaseMutex(x)
 #endif
 
-enum { THREAD_SLEEP , THREAD_SEARCH , THREAD_TT_CLEAr , THREAD_EXIt , THREAD_RESUME };
+enum { THREAD_SLEE2 , THREAD_SEARC2 , THREAD_TT_CLEAr , THREAD_EXIt , THREAD_RESUME };
 
 void thread_search(Position *pos);
 void thread_wake_up(Position *pos, int action);
