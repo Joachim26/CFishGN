@@ -1,4 +1,4 @@
-name: CFishGNArmWinBinariesUpload
+name: CFishGNArmWinBuildsUpload
 on:
   workflow_dispatch:
 jobs:
