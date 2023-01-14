@@ -79,8 +79,8 @@ jobs:
         run: |
           make clean
           make build ARCH=auto COMP=gcc numa=no
-          make strip ARCH=auto COMP=gcc
-          cp Cfish.exe ../CFishGN_modern.exe
+          #make strip ARCH=auto COMP=gcc
+          cp ?fish.exe ../CFishGN_modern.exe
         
       - uses: xresloader/upload-to-github-release@v1
         if: ${{ matrix.config.run_win11_build }}
