@@ -3,9 +3,11 @@ This is a fork of [Cfish](https://github.com/syzygy1/Cfish) (author syzygy1) and
 
 The main purpose of this fork is to release Android and Windows binaries of [Lost CFishes](https://github.com/Joachim26/CFishGN/releases) which were never released by their original authors syzygy1 and Sopel97 or others. 
 
-The [releases](https://github.com/Joachim26/CFishGN/releases) start with the last development version of CFish and end with FatTitz v2.0. All Android builds were (identically) compiled on Termux with clang while all Windows builds were automatically compiled, as identical as possible, with GitHub Actions using msys2 and mingw. Some test results with these binaries will follow. 
+The [releases](https://github.com/Joachim26/CFishGN/releases) start with the last development version of CFish and end with FatTitz v2.0. All Android builds were (identically) compiled on Termux with clang while all Windows builds were automatically compiled, as identical as possible, with GitHub Actions using msys2 and mingw. Some test results with these binaries will follow: 
 
 A first Arena 2000 STC games match shows that CFishGN_pTT is 11 (+/-11) Elo weaker than CFishGNv2 aka FatTitz v2.0.
+
+A later dev version perfoms much better vs FT2 [see](https://github.com/Joachim26/CFishGN/releases/tag/LastNNUEv3CFish)
 
 The final engine [CfishGNv2](https://github.com/Joachim26/CFishGN) uses a HalfKAv2-2048x2-64-64-1 evaluation network, which contains whopping **4 times** the knowledge of Stockfish 14. It was trained partially on Lc0 data, which gives it a unique positional style, while still preserving the tactical sharpness of Stockfish. The network was trained using a modification of the [state-of-the-art NNUE trainer](https://github.com/glinscott/nnue-pytorch), utilizing publicly available datasets [1](https://drive.google.com/file/d/1VlhnHL8f-20AXhGkILujnNXHwy9T-MQw/view?usp=sharing), [2](https://drive.google.com/file/d/1seGNOqcVdvK_vPNq98j-zV3XPE5zWAeq/view?usp=sharing), [3](https://drive.google.com/file/d/1RFkQES3DpsiJqsOtUshENtzPfFgUmEff/view?usp=sharing)
 
