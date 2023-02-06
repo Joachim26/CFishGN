@@ -1297,7 +1297,8 @@ moves_loop: // When in check search starts from here
       Depth r = reduction(improving, depth, moveCount, rangeReduction > 2);
 
       if (   PvNode
-          && bestMoveCount <= 3)
+          && bestMoveCount <= 4  //Orig <= 3
+          && beta - alpha >= pos->rootDelta / 4)
           r--;
 
       // Decrease reduction if the ttHit runing average is large
