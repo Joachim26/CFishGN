@@ -1,4 +1,4 @@
-# CFishGN
+# CFishNN
 This is a fork of [Cfish](https://github.com/syzygy1/Cfish) (author syzygy1) and [FatTitz](https://github.com/Sopel97/FatTitz) (author Sopel97).
 
 The main purpose of this fork is to release Android and Windows binaries of [Lost CFishes](https://github.com/Joachim26/CFishGN/releases) which were never released by their original authors syzygy1 and Sopel97 or others. 
