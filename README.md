@@ -1,7 +1,9 @@
 # CFishNN
 This is a fork of [Cfish](https://github.com/syzygy1/Cfish) (author syzygy1) and [FatTitz](https://github.com/Sopel97/FatTitz) (author Sopel97).
 
-The main purpose of this fork is to release Android and Windows binaries of [Lost CFishes](https://github.com/Joachim26/CFishGN/releases) which were never released by their original authors syzygy1 and Sopel97 or others. 
+The main purpose of this fork was to release Android and Windows binaries of [Lost CFishes](https://github.com/Joachim26/CFishGN/releases) which were never released by their original authors syzygy1 and Sopel97 or others. 
+
+In the meantime, this repo is also used as a playground to further develope CFish. Therefore, CFish's name was slightly changed to CFishNN.
 
 The [releases](https://github.com/Joachim26/CFishGN/releases) start with the last development version of original CFish and end with FatTitz v2.0. All Android builds were (identically) compiled on Termux with clang while all Windows builds were automatically compiled, as identical as possible, with GitHub Actions using msys2 and mingw.
 
