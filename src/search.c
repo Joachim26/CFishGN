@@ -190,6 +190,7 @@ void search_clear(void)
   TB_release();
 
   mainThread.previousScore = VALUE_INFINITE;
+  mainThread.previousAverageScore = VALUE_INFINITE;
   mainThread.previousTimeReduction = 1;
 }
 
@@ -375,6 +376,7 @@ void mainthread_search(void)
   }
 
   mainThread.previousScore = bestThread->rootMoves->move[0].score;
+  mainThread.previousAverageScore = bestThread->rootMoves->move[0].averageScore;
 
   // Send new PV when needed
   if (bestThread != pos)
@@ -611,7 +613,8 @@ skip_search:
         && !Threads.stop
         && !Threads.stopOnPonderhit)
     {
-      double fallingEval = (318 + 6 * (mainThread.previousScore - bestValue)
+      double fallingEval = (142 + 6 * (mainThread.previousScore - bestValue)
+                                + 6 * (mainThread.previousAverageScore - bestValue)
                                 + 6 * (mainThread.iterValue[iterIdx] - bestValue)) / 825.0;
       fallingEval = clamp(fallingEval, 0.5, 1.5);
 
@@ -1177,6 +1180,8 @@ moves_loop: // When in check search starts from here
 
         history += (*pos->mainHistory)[stm()][from_to(move)];
 
+        lmrDepth = max(0, lmrDepth - (beta - alpha < pos->rootDelta / 4));
+
         // Futility pruning: parent node
         if (   !inCheck
             && lmrDepth < 8
@@ -1314,9 +1319,8 @@ moves_loop: // When in check search starts from here
       if (ss->ttPv && !likelyFailLow)
         r -= 2;
 
-      // Increase reduction at root and non-PV nodes when the best move
-      // does not change frequently
-      if ((rootNode || !PvNode) && pos->bestMoveChanges <= 2)
+      // Increase reduction at non-PV nodes when the best move does not change frequently
+      if (!PvNode && pos->bestMoveChanges <= 2)
         r++;
 
       // Decrease reduction if opponent's move count is high
