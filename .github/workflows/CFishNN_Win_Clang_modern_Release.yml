@@ -2,7 +2,7 @@ name: CFishNN_Win_Clang_modern_Release
 on:
   workflow_dispatch:
 jobs:
-  SFnpsArmWinBuilds:
+  CFishNNWinBuilds:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     env:
@@ -17,7 +17,7 @@ jobs:
             comp: clang
             run_win11_build: true
             msys_sys: clang64
-            msys_env: clang-x86_64
+            msys_env: x86_64-clang
             shell: msys2 {0}   
 
     defaults:
@@ -43,7 +43,7 @@ jobs:
         if: ${{ matrix.config.run_win11_build }}
         run: |
           make clean
-          ls -all
+          ls
           make -j2 profile-build ARCH=ARCH=x86-64-modern COMP=clang numa=no
           strip cfish.exe
           cp cfish.exe ../CFishNN_modern.exe
