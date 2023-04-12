@@ -43,9 +43,9 @@ jobs:
         if: ${{ matrix.config.run_win11_build }}
         run: |
           make clean
-          make -j2 profile-build ARCH=ARCH=x86-64-modern COMP=gcc numa=no
+          make -j2 profile-build ARCH=ARCH=x86-64-avx2 COMP=gcc numa=no
           strip cfish.exe
-          cp cfish.exe ../CFishGN_modern.exe
+          cp cfish.exe ../CFishNN_avx2.exe
         
       - uses: xresloader/upload-to-github-release@v1
         if: ${{ matrix.config.run_win11_build }}
@@ -53,8 +53,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           overwrite: false
-          file: "CFishGN_modern.exe"
-          update_latest_release: false
+          file: "CFishNN_avx2.exe"
+          update_latest_release: true
         
       #- uses: actions/upload-artifact@v3
       #  if: ${{ matrix.config.run_win11_build }}
