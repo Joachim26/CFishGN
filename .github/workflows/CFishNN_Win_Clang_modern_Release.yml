@@ -18,7 +18,7 @@ jobs:
             run_win11_build: true
             msys_sys: clang64
             msys_env: x86_64-clang
-            shell: msys2 {0}   
+            shell: bash {0}   
 
     defaults:
       run:
@@ -43,6 +43,7 @@ jobs:
         if: ${{ matrix.config.run_win11_build }}
         run: |
           make clean
+          ls -all
           make -j2 profile-build ARCH=ARCH=x86-64-modern COMP=clang numa=no
           strip cfish.exe
           cp cfish.exe ../CFishNN_modern.exe
