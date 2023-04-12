@@ -43,7 +43,7 @@ jobs:
         if: ${{ matrix.config.run_win11_build }}
         run: |
           make clean
-          ls
+          clang -v
           make -j2 build ARCH=ARCH=x86-64-modern COMP=clang numa=no
           strip cfish.exe
           cp cfish.exe ../CFishNN_modern.exe
