@@ -1,4 +1,4 @@
-name: CFishGNArmWinBuildsUpload
+name: CFishNN_Win_avx2_Release
 on:
   workflow_dispatch:
 jobs:
