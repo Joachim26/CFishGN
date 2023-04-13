@@ -907,7 +907,7 @@ Value evaluate(const Position *pos)
 
 
 #define adjusted_NNUE() \
-  (nnue_evaluate(pos, true) * (898 + mat) / 4096 )
+  (nnue_evaluate(pos, true) * (898 + mat) / 16384 )
 
 
 Value evaluate(const Position *pos)
