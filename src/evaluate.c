@@ -905,14 +905,18 @@ Value evaluate(const Position *pos)
 
 #else /* NNUE_PURE */
 
-#error "Not supported"
+
+#define adjusted_NNUE() \
+  (nnue_evaluate(pos, true) * (898 + mat) / 1024 )
+
+
 Value evaluate(const Position *pos)
 {
   Value v;
   int mat = non_pawn_material() + 4 * PawnValueMg * popcount(pieces_p(PAWN));
 
   v = adjusted_NNUE();
-  v = v * (100 - rule50_count()) / 100;
+  v = v * (128 - rule50_count()) / 128;
   return clamp(v, VALUE_TB_LOSS_IN_MAX_PLY + 1, VALUE_TB_WIN_IN_MAX_PLY - 1);
 }
 
