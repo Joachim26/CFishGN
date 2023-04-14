@@ -907,19 +907,16 @@ Value evaluate(const Position *pos)
 
 Value evaluate(const Position *pos)
 {
-  //Value v;
-  //Value psq = abs(eg_value(psq_score()));
-  //bool classical = (useNNUE != EVAL_PURE && psq * 5 > (850 + non_pawn_material() / 64) * (5 + rule50_count())) || (useNNUE == EVAL_CLASSICAL);
-
   Value v = nnue_evaluate(pos, true);
 
   int scale =   898   //898
-                 + 19 * popcount(pieces_p(PAWN))      //24
-                 + 26 * non_pawn_material() / 1024;   //33
+                 + 24 * popcount(pieces_p(PAWN))    //24  19
+                 +      non_pawn_material() / 32;   //33  26
 
   Value optimism = pos->optimism[stm()];
   v = (v + optimism) * scale / 1024 - optimism;
 
+  // For FRC just copy fix_FRC(pos) directly after #else /* NNUE_PURE */
   //if (is_chess960()) v += fix_FRC(pos);
   // Damp down the evalation linearly when shuffling
   v = v * (207 - rule50_count()) / 207;
