@@ -913,21 +913,18 @@ Value evaluate(const Position *pos)
 
   Value v = nnue_evaluate(pos, true);
 
-  {
-    int scale =   898   //898
+  int scale =   898   //898
                  + 19 * popcount(pieces_p(PAWN))      //24
                  + 26 * non_pawn_material() / 1024;   //33
 
-    Value optimism = pos->optimism[stm()];
+  Value optimism = pos->optimism[stm()];
+  v = (v + optimism) * scale / 1024 - optimism;
 
-    v = (v + optimism) * scale / 1024 - optimism;
-
-    if (is_chess960()) v += fix_FRC(pos);
-  }
-
+  //if (is_chess960()) v += fix_FRC(pos);
   // Damp down the evalation linearly when shuffling
   v = v * (207 - rule50_count()) / 207;
 
   return clamp(v, VALUE_TB_LOSS_IN_MAX_PLY + 1, VALUE_TB_WIN_IN_MAX_PLY - 1);
 }
+
 #endif
