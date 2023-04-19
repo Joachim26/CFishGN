@@ -16,7 +16,7 @@ jobs:
             compiler: clang
             comp: clang
             run_win11_build: true
-            msys_sys: clang
+            msys_sys: clang64
             msys_env: x86_64-clang
             shell: msys2 {0}   
 
