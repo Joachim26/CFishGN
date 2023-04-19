@@ -594,7 +594,7 @@ ifeq ($(optimize),yes)
 	endif
 
 	ifeq ($(comp),clang)
-		CFLAGS += -fexperimental-new-pass-manager
+		CFLAGS +=
 	endif
 endif
 
