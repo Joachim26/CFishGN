@@ -475,7 +475,7 @@ ifeq ($(COMP),clang)
 	ifneq ($(KERNEL),Darwin)
 	ifneq ($(KERNEL),OpenBSD)
 	ifneq ($(KERNEL),FreeBSD)
-		LDFLAGS += -static
+		LDFLAGS += -latomic
 	endif
 	endif
 	endif
