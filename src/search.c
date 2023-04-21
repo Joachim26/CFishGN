@@ -57,9 +57,10 @@ INLINE int futility_margin(Depth d, bool improving) {
 int search_explosion(Position* thisThread) {
 
   uint64_t nodesNow = thisThread->nodes;
-  bool explosive =    RunningAverage_is_greater(&(thisThread->doubleExtensionAverage[WHITE]), 2, 100)
-                   || RunningAverage_is_greater(&(thisThread->doubleExtensionAverage[BLACK]), 2, 100);
-
+  //bool explosive =    RunningAverage_is_greater(&(thisThread->doubleExtensionAverage[WHITE]), 2, 100)
+  //                 || RunningAverage_is_greater(&(thisThread->doubleExtensionAverage[BLACK]), 2, 100);
+  
+  bool explosive = false;
   if (explosive)
      thisThread->nodesLastExplosive = nodesNow;
   else
