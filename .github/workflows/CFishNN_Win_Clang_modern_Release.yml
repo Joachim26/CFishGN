@@ -33,10 +33,14 @@ jobs:
         if: runner.os == 'Windows'
         uses: msys2/setup-msys2@v2
         with:
-          release: release
-          update: true 
-          msystem: ${{ matrix.config.msys_sys }}
-          install: mingw-w64-${{ matrix.config.msys_env }} make git
+          #release: release
+          #update: true 
+          msystem: MINGW64
+          install: >-
+            mingw-w64-x86_64-clang
+            mingw-w64-x86_64-compiler-rt
+            make 
+            git
 
       - name: Download the network from the fishtest framework
         run: make net
