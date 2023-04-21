@@ -451,8 +451,8 @@ void thread_search(Position *pos)
 
   RootMoves *rm = pos->rootMoves;
   multiPV = min(multiPV, rm->size);
-  RunningAverage_set(&pos->doubleExtensionAverage[WHITE], 0, 100);  // initialize the running average at 0%
-  RunningAverage_set(&pos->doubleExtensionAverage[BLACK], 0, 100);  // initialize the running average at 0%
+  //RunningAverage_set(&pos->doubleExtensionAverage[WHITE], 0, 100);  // initialize the running average at 0%
+  //RunningAverage_set(&pos->doubleExtensionAverage[BLACK], 0, 100);  // initialize the running average at 0%
 
   pos->nodesLastExplosive = pos->nodes;
   pos->nodesLastNormal    = pos->nodes;
@@ -781,7 +781,7 @@ INLINE Value search_node(Position *pos, Stack *ss, Value alpha, Value beta,
   Square prevSq = to_sq((ss-1)->currentMove);
 
   // Update the running average statistics for double extensions
-  RunningAverage_update(&(pos->doubleExtensionAverage[stm()]), ss->depth > (ss-1)->depth);
+  //RunningAverage_update(&(pos->doubleExtensionAverage[stm()]), ss->depth > (ss-1)->depth);
 
   // Initialize statScore to zero for the grandchildren of the current
   // position. So the statScore is shared between all grandchildren and only
