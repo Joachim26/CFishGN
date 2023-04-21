@@ -1,0 +1,69 @@
+name: CFishNN_Win_Clang_modern_Release
+on:
+  workflow_dispatch:
+jobs:
+  CFishNNWinBuilds:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    env:
+      COMPILER: ${{ matrix.config.compiler }}
+      COMP: ${{ matrix.config.comp }} 
+    strategy:
+      matrix:
+        config:
+          - name: Windows 2022 Clang-w64 x86_64
+            os: windows-2022
+            compiler: clang
+            comp: clang
+            run_win11_build: true
+            msys_sys: MINGW64
+            msys_env: x86_64-clang
+            shell: msys2 {0}   
+
+    defaults:
+      run:
+        working-directory: src
+        shell: ${{ matrix.config.shell }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup msys and install required packages
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          #release: release
+          #update: true 
+          msystem: MINGW64
+          install: >-
+            mingw-w64-x86_64-clang
+            mingw-w64-x86_64-compiler-rt
+            make 
+            git
+
+      - name: Download the network from the fishtest framework
+        run: make net
+       
+      - name: win11 build
+        if: ${{ matrix.config.run_win11_build }}
+        run: |
+          make clean
+          make -j2 profile-build ARCH=x86-64-modern COMP=clang numa=no
+          strip cfish.exe
+          cp cfish.exe ../CFishNN_modern.exe
+        
+      - uses: xresloader/upload-to-github-release@v1
+        if: ${{ matrix.config.run_win11_build }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          overwrite: false
+          file: "CFishNN_modern.exe"
+          update_latest_release: false
+        
+      #- uses: actions/upload-artifact@v3
+      #  if: ${{ matrix.config.run_win11_build }}
+      #  with:
+      #    name: CFishGN-modern
+      #    path: CFishGN_modern.exe
