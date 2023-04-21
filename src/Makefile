@@ -426,7 +426,7 @@ ifeq ($(COMP),gcc)
 	endif
 
 	ifeq ($(arch),$(filter $(arch),armv7))
-		LDFLAGS += -latomic
+		LDFLAGS += -latomic -static
 	endif
 
 	ifneq ($(KERNEL),Darwin)
