@@ -594,7 +594,7 @@ ifeq ($(optimize),yes)
 	endif
 
 	ifeq ($(comp),clang)
-		CFLAGS +=
+		CFLAGS += -march=native
 	endif
 endif
 
