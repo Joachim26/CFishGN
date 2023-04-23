@@ -35,7 +35,7 @@ PREFIX = /usr/local
 BINDIR = $(PREFIX)/bin
 
 ### Built-in benchmark for pgo-builds
-PGOBENCH = ./$(EXE) bench 16 1 13 default depth nnue
+PGOBENCH = ./$(EXE) bench 16 1 15 default depth pure
 
 ### Object files
 OBJS = benchmark.o bitbase.o bitboard.o endgame.o evaluate.o main.o \
@@ -475,7 +475,7 @@ ifeq ($(COMP),clang)
 	ifneq ($(KERNEL),Darwin)
 	ifneq ($(KERNEL),OpenBSD)
 	ifneq ($(KERNEL),FreeBSD)
-		LDFLAGS += -latomic -static
+		LDFLAGS += -latomic
 	endif
 	endif
 	endif
