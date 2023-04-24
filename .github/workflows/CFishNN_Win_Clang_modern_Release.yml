@@ -51,6 +51,7 @@ jobs:
           make clean
           make -j2 profile-build ARCH=x86-64-bmi2 COMP=clang sparse=no numa=no extra=yes 
           strip cfish.exe
+          ./cfish.exe bench
           cp cfish.exe ../CFishNN_modern.exe
         
       - uses: xresloader/upload-to-github-release@v1
