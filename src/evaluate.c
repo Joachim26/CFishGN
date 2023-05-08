@@ -878,10 +878,10 @@ Value evaluate(const Position *pos)
                 : nnue_evaluate(pos, true);
 
   if (!classical)
-  {
-    int scale = 1049
-                  +  8 * pos.count<PAWN>()
-                  + 20 * pos.non_pawn_material() / 1024;
+  {    
+    int scale = 1049   //Tune NNUE scaling params SF PATCH
+                +  8 * popcount(pieces_p(PAWN))
+                + 20 * non_pawn_material() / 1024;   
 
     Value optimism = pos->optimism[stm()];
 
