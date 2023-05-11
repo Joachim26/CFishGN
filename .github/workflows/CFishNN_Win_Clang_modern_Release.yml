@@ -2,7 +2,7 @@ name: CFishNN_Win_Clang_modern_Release
 on:
   workflow_dispatch:
 jobs:
-  SFnpsArmWinBuilds:
+  CFishNNWinBuilds:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     env:
@@ -16,7 +16,7 @@ jobs:
             compiler: clang
             comp: clang
             run_win11_build: true
-            msys_sys: clang64
+            msys_sys: MINGW64
             msys_env: x86_64-clang
             shell: msys2 {0}   
 
@@ -33,8 +33,14 @@ jobs:
         if: runner.os == 'Windows'
         uses: msys2/setup-msys2@v2
         with:
-          msystem: ${{ matrix.config.msys_sys }}
-          install: mingw-w64-${{ matrix.config.msys_env }} make git
+          #release: release
+          #update: true 
+          msystem: MINGW64
+          install: >-
+            mingw-w64-x86_64-clang
+            mingw-w64-x86_64-compiler-rt
+            make 
+            git
 
       - name: Download the network from the fishtest framework
         run: make net
@@ -43,7 +49,7 @@ jobs:
         if: ${{ matrix.config.run_win11_build }}
         run: |
           make clean
-          make -j2 profile-build ARCH=ARCH=x86-64-modern COMP=clang numa=no
+          make -j2 profile-build ARCH=x86-64-modern COMP=clang sparse=yes numa=no extra=yes 
           strip cfish.exe
           cp cfish.exe ../CFishNN_modern.exe
         
