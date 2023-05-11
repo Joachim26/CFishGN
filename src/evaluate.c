@@ -879,9 +879,9 @@ Value evaluate(const Position *pos)
 
   if (!classical)
   {
-    int scale =   898   //898
-                 + 19 * popcount(pieces_p(PAWN))      //24
-                 + 26 * non_pawn_material() / 1024;   //33
+    int scale =   898 
+                 + 19 * popcount(pieces_p(PAWN))  
+                 + 26 * non_pawn_material() / 1024; 
 
     Value optimism = pos->optimism[stm()];
 
@@ -905,14 +905,25 @@ Value evaluate(const Position *pos)
 
 #else /* NNUE_PURE */
 
-#error "Not supported"
 Value evaluate(const Position *pos)
 {
-  Value v;
-  int mat = non_pawn_material() + 4 * PawnValueMg * popcount(pieces_p(PAWN));
+  //Value v;
+  //Value psq = abs(eg_value(psq_score()));
+  //bool classical = (useNNUE != EVAL_PURE && psq * 5 > (850 + non_pawn_material() / 64) * (5 + rule50_count())) || (useNNUE == EVAL_CLASSICAL);
 
-  v = adjusted_NNUE();
-  v = v * (100 - rule50_count()) / 100;
+  Value v = nnue_evaluate(pos, true);
+
+  int scale =   898  
+               + 19 * popcount(pieces_p(PAWN))   
+               + 26 * non_pawn_material() / 1024; 
+
+  Value optimism = pos->optimism[stm()];
+  v = (v + optimism) * scale / 1024 - optimism;
+
+  //if (is_chess960()) v += fix_FRC(pos);
+  // Damp down the evalation linearly when shuffling
+  v = v * (207 - rule50_count()) / 207;
+
   return clamp(v, VALUE_TB_LOSS_IN_MAX_PLY + 1, VALUE_TB_WIN_IN_MAX_PLY - 1);
 }
 
