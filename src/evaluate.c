@@ -880,7 +880,7 @@ Value evaluate(const Position *pos)
   if (!classical)
   {
     int scale =  1136   
-                 + 20 * non_pawn_material() / 1024; 
+                 + non_pawn_material() / 64; 
 
     Value optimism = pos->optimism[stm()];
 
