@@ -879,9 +879,8 @@ Value evaluate(const Position *pos)
 
   if (!classical)
   {
-    int scale =  1049 
-                 +  8 * popcount(pieces_p(PAWN))  
-                 + 20 * non_pawn_material() / 1024; 
+    int scale =  1100   
+                 + non_pawn_material() / 64; 
 
     Value optimism = pos->optimism[stm()];
 
