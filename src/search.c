@@ -617,7 +617,7 @@ skip_search:
       timeReduction = lastBestMoveDepth + 9 < pos->completedDepth ? 1.92 : 0.95;
       double reduction = (1.47 + mainThread.previousTimeReduction) / (2.32 * timeReduction);
 
-      // Use part of the gained time from a previous stable move for this move
+      // Use parts of the gained time from a previous stable move for this move
       for (int i = 0; i < Threads.numThreads; i++) {
         totBestMoveChanges += Threads.pos[i]->bestMoveChanges;
         Threads.pos[i]->bestMoveChanges = 0;
