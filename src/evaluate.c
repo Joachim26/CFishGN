@@ -868,16 +868,20 @@ static Value fix_FRC(const Position *pos)
 Value evaluate(const Position *pos)
 {
   Value v;
+  bool classical = false;
 
 #ifdef NNUE
 
   Value psq = abs(eg_value(psq_score()));
-  bool classical = (useNNUE != EVAL_PURE && psq * 5 > (850 + non_pawn_material() / 64) * (5 + rule50_count())) || (useNNUE == EVAL_CLASSICAL);
+  v = evaluate_classical(pos);
+  classical = (useNNUE != EVAL_PURE && psq * 5 > (850 + non_pawn_material() / 64) * (5 + rule50_count())) 
+              || (useNNUE == EVAL_CLASSICAL)
+              || (abs(v) >= 300);
 
-  v = classical ? evaluate_classical(pos)
+  v = classical ? v
                 : nnue_evaluate(pos, true);
 
-  if (!classical)
+  if (!classical && useNNUE)
   {
     int scale =  1136   
                  + 20 * non_pawn_material() / 1024; 
