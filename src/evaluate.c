@@ -883,8 +883,10 @@ Value evaluate(const Position *pos)
     classical = abs(v) >= 300;
   }
 
-  v = classical ? v
-                : nnue_evaluate(pos, true);
+  if (!classical) 
+  {
+    v = nnue_evaluate(pos, true);
+  }
 
   if (!classical && useNNUE)
   {
