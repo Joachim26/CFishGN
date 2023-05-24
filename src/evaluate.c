@@ -882,10 +882,13 @@ Value evaluate(const Position *pos)
     v = evaluate_classical(pos);
     classical = abs(v) >= 300;
   }
+  else 
+  {  
+    v = nnue_evaluate(pos, true);  
+  }
 
   if (!classical && useNNUE)
   {
-    v = nnue_evaluate(pos, true); 
     int scale =  1136   
                  + 20 * non_pawn_material() / 1024; 
 
