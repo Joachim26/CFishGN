@@ -868,7 +868,7 @@ static Value fix_FRC(const Position *pos)
 Value evaluate(const Position *pos)
 {
   Value v;
-  bool classical;
+  bool classical = false;
 
 #ifdef NNUE
 
@@ -882,10 +882,9 @@ Value evaluate(const Position *pos)
     v = evaluate_classical(pos);
     classical = abs(v) >= 300;
   }
-  else 
-  {  
-    v = nnue_evaluate(pos, true);  
-  }
+
+  v = classical ? v
+                : nnue_evaluate(pos, true);
 
   if (!classical && useNNUE)
   {
