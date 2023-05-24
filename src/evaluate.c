@@ -873,10 +873,15 @@ Value evaluate(const Position *pos)
 #ifdef NNUE
 
   Value psq = abs(eg_value(psq_score()));
-  v = evaluate_classical(pos);
-  classical = ((useNNUE != EVAL_PURE && psq * 5 > (850 + non_pawn_material() / 64) * (5 + rule50_count())) 
-               && (abs(v) >= 300))
+  
+  classical = (useNNUE != EVAL_PURE && psq * 5 > (850 + non_pawn_material() / 64) * (5 + rule50_count())) 
                || (useNNUE == EVAL_CLASSICAL);
+
+  if (classical) 
+  {
+    v = evaluate_classical(pos);
+    classical = abs(v) >= 300;
+  }
 
   v = classical ? v
                 : nnue_evaluate(pos, true);
