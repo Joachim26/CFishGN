@@ -888,7 +888,7 @@ Value evaluate(const Position *pos)
     v = nnue_evaluate(pos, true);
   }
 
-  if (!classical && useNNUE)
+  if (!classical)
   {
     int scale =  1136   
                  + 20 * non_pawn_material() / 1024; 
