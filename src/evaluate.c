@@ -880,7 +880,7 @@ Value evaluate(const Position *pos)
   if (classical) 
   {
     v = evaluate_classical(pos);
-    classical = abs(v) >= 200;
+    classical = abs(v) >= 250;
   }
 
   if (!classical)
