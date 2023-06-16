@@ -874,13 +874,13 @@ Value evaluate(const Position *pos)
 
   Value psq = abs(eg_value(psq_score()));
   
-  classical = (useNNUE != EVAL_PURE && psq * 6 > (850 + non_pawn_material() / 64) * (5 + rule50_count())) 
+  classical = (useNNUE != EVAL_PURE && psq * 7 > (850 + non_pawn_material() / 64) * (5 + rule50_count())) 
                || (useNNUE == EVAL_CLASSICAL);
 
   if (classical) 
   {
     v = evaluate_classical(pos);
-    classical = abs(v) >= 250;
+    classical = abs(v) >= 225;
   }
 
   if (!classical)
